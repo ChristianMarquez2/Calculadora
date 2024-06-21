@@ -1,5 +1,6 @@
 import javax.swing.*;
-import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Form1 extends JFrame {
     private JTextField textField1;
@@ -19,23 +20,17 @@ public class Form1 extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Calculadora");
 
-        // Configuración de los JTextField
         textField1 = new JTextField(10);
         textField2 = new JTextField(10);
 
-        // Configuración de los JButton
         btnSuma = new JButton("Suma");
         btnResta = new JButton("Resta");
         btnMultiplicacion = new JButton("Multiplicación");
         btnDivision = new JButton("División");
 
-        // Configuración del JLabel para mostrar el resultado
         labelResultado = new JLabel("Resultado:");
 
-        // Configuración del panel principal con GridLayout
-        JPanel panel = new JPanel(new GridLayout(2, 2, 10, 10)); // 2 filas, 2 columnas, espacios de 10px entre componentes
-
-        // Agregar componentes al panel
+        JPanel panel = new JPanel();
         panel.add(textField1);
         panel.add(textField2);
         panel.add(btnSuma);
@@ -44,19 +39,40 @@ public class Form1 extends JFrame {
         panel.add(btnDivision);
         panel.add(labelResultado);
 
-        // Agregar panel al JFrame
         add(panel);
 
-        pack(); // Ajusta el tamaño del JFrame automáticamente
+        pack();
         setLocationRelativeTo(null); // Centrar ventana en la pantalla
     }
 
     private void setupListeners() {
-        // Configurar listeners para los botones
-        btnSuma.addActionListener(e -> calcularOperacion('+'));
-        btnResta.addActionListener(e -> calcularOperacion('-'));
-        btnMultiplicacion.addActionListener(e -> calcularOperacion('*'));
-        btnDivision.addActionListener(e -> calcularOperacion('/'));
+        btnSuma.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                calcularOperacion('+');
+            }
+        });
+
+        btnResta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                calcularOperacion('-');
+            }
+        });
+
+        btnMultiplicacion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                calcularOperacion('*');
+            }
+        });
+
+        btnDivision.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                calcularOperacion('/');
+            }
+        });
     }
 
     private void calcularOperacion(char operador) {
@@ -92,9 +108,12 @@ public class Form1 extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            Form1 Form1 = new Form1();
-            Form1.setVisible(true);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                Form1 form1 = new Form1();
+                form1.setVisible(true);
+            }
         });
     }
 }
